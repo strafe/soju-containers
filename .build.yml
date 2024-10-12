@@ -1,0 +1,20 @@
+image: archlinux
+packages:
+  # TODO: use latest podman once this is released:
+  # https://github.com/containers/buildah/pull/5438
+  - podman-git
+  - passt
+sources:
+  - https://codeberg.org/emersion/soju-containers.git
+secrets:
+  - 106c7011-4e0e-4b33-a3f2-ffea55ce3f4b # codeberg package registry token
+tasks:
+  - build: |
+      cd soju-containers
+      podman build --target soju --tag soju .
+      podman build --target gamja --tag gamja .
+  - deploy: |
+      [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)" ] || complete-build
+      podman login codeberg.org --username emersion --password-stdin <~/codeberg-token.txt
+      podman push soju codeberg.org/emersion/soju
+      podman push gamja codeberg.org/emersion/gamja
