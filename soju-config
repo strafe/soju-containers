@@ -1,0 +1,5 @@
+db sqlite3 /db/main.db
+message-store db
+listen irc+insecure://
+listen http+insecure://
+listen unix+admin://

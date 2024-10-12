@@ -1,0 +1,27 @@
+name: soju
+
+configs:
+  soju:
+    file: soju-config
+
+volumes:
+  db:
+
+services:
+  soju:
+    build:
+      target: soju
+    ports:
+      - "127.0.0.1:6667:6667"
+    configs:
+      - source: soju
+        target: /soju-config
+    volumes:
+      - "db:/db"
+    command: /soju -config /soju-config
+  gamja:
+    build:
+      target: gamja
+    ports:
+      - "127.0.0.1:8080:80"
+    command: /kimchi -config /kimchi-config

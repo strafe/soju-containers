@@ -1,0 +1,7 @@
+site http+insecure:// {
+	file_server /gamja
+}
+
+site http+insecure:///socket {
+	reverse_proxy http://soju/socket
+}
