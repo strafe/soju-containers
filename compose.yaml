@@ -9,6 +9,7 @@ volumes:
 
 services:
   soju:
+    image: codeberg.org/emersion/soju
     build:
       target: soju
     ports:
@@ -20,6 +21,7 @@ services:
       - "db:/db"
     command: /soju -config /soju-config
   gamja:
+    image: codeberg.org/emersion/gamja
     build:
       target: gamja
     ports:
