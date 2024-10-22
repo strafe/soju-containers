@@ -19,11 +19,9 @@ services:
         target: /soju-config
     volumes:
       - "db:/db"
-    command: /soju -config /soju-config
   gamja:
     image: codeberg.org/emersion/gamja
     build:
       target: gamja
     ports:
       - "127.0.0.1:8080:80"
-    command: /kimchi -config /kimchi-config
