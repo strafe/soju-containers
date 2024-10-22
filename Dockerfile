@@ -32,6 +32,7 @@ RUN --mount=type=cache,target=/src/node_modules \
 FROM scratch AS soju
 COPY --from=soju-build /src/soju /src/sojudb /src/sojuctl /
 ENTRYPOINT ["/soju"]
+HEALTHCHECK CMD ["/sojuctl", "help"]
 
 FROM scratch AS gamja
 COPY --from=kimchi-build /src/kimchi /kimchi
