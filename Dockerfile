@@ -31,10 +31,10 @@ RUN --mount=type=cache,target=/src/node_modules \
 
 FROM scratch AS soju
 COPY --from=soju-build /src/soju /src/sojudb /src/sojuctl /
-CMD /soju -config /soju-config
+ENTRYPOINT ["/soju"]
 
 FROM scratch AS gamja
 COPY --from=kimchi-build /src/kimchi /kimchi
 COPY --from=gamja-build /src/dist /gamja
 ADD kimchi-config /kimchi-config
-CMD /kimchi -config /kimchi-config
+CMD ["/kimchi", "-config", "/kimchi-config"]
