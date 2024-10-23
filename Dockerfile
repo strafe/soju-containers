@@ -20,9 +20,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 	--mount=type=cache,target=/root/go/pkg/mod \
 	go build
 
-# TODO: use latest node once this is fixed:
-# https://github.com/parcel-bundler/parcel/issues/9926
-FROM docker.io/library/node:22.6-alpine AS gamja-build
+FROM docker.io/library/node:alpine AS gamja-build
 ADD https://codeberg.org/emersion/gamja.git /src/
 WORKDIR /src
 RUN --mount=type=cache,target=/src/node_modules \
