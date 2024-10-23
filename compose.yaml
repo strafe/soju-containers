@@ -19,6 +19,10 @@ services:
         target: /soju-config
     volumes:
       - "db:/db"
+    networks:
+      default:
+        aliases:
+          - gamja-backend
   gamja:
     image: codeberg.org/emersion/gamja
     build:

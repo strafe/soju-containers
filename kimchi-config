@@ -3,5 +3,5 @@ site http+insecure:// {
 }
 
 site http+insecure:///socket {
-	reverse_proxy http://soju/socket
+	reverse_proxy http://gamja-backend/socket
 }
