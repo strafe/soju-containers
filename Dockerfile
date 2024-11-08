@@ -1,6 +1,6 @@
 FROM docker.io/library/golang:alpine AS soju-build
 RUN --mount=type=cache,target=/var/cache/apk \
-	apk -U add build-base
+	apk -U add build-base ca-certificates tzdata
 ADD https://codeberg.org/emersion/soju.git /src/
 WORKDIR /src
 RUN --mount=type=cache,target=/root/.cache/go-build \
@@ -29,6 +29,8 @@ RUN --mount=type=cache,target=/src/node_modules \
 
 FROM scratch AS soju
 COPY --from=soju-build /src/soju /src/sojudb /src/sojuctl /
+COPY --from=soju-build /usr/share/zoneinfo /usr/share/zoneinfo
+COPY --from=soju-build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 ENTRYPOINT ["/soju"]
 HEALTHCHECK CMD ["/sojuctl", "help"]
 
