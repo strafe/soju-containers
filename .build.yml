@@ -14,6 +14,7 @@ tasks:
       podman build --target soju --tag soju .
       podman build --target gamja --tag gamja .
   - deploy: |
+      cd soju-containers
       [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)" ] || complete-build
       podman login codeberg.org --username emersion --password-stdin <~/codeberg-token.txt
       podman push soju codeberg.org/emersion/soju
