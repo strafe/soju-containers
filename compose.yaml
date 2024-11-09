@@ -8,6 +8,7 @@ configs:
 
 volumes:
   db:
+  uploads:
 
 services:
   soju:
@@ -21,6 +22,7 @@ services:
         target: /soju-config
     volumes:
       - "db:/db"
+      - "uploads:/uploads"
     networks:
       default:
         aliases:

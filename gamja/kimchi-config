@@ -5,6 +5,12 @@ site http+insecure:// {
 site http+insecure:///socket {
 	reverse_proxy http://gamja-backend/socket
 }
+site http+insecure:///uploads {
+	reverse_proxy http://gamja-backend/uploads
+}
+site http+insecure:///uploads/ {
+	reverse_proxy http://gamja-backend/uploads/
+}
 
 site http+insecure:///config.json {
 	file_server /gamja-config.json

@@ -1,5 +1,7 @@
 db sqlite3 /db/main.db
 message-store db
+file-upload fs /uploads/
 listen irc+insecure://
 listen http+insecure://
 listen unix+admin://
+http-ingress http://localhost:8080
