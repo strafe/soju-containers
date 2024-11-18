@@ -1,9 +1,6 @@
 image: archlinux
 packages:
-  # TODO: use latest podman once this is released:
-  # https://github.com/containers/buildah/pull/5438
-  - podman-git
-  - passt
+  - podman
 sources:
   - https://codeberg.org/emersion/soju-containers.git
 secrets:
