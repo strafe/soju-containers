@@ -8,11 +8,12 @@ secrets:
 tasks:
   - build: |
       cd soju-containers
-      podman build --platform linux/amd64,linux/arm64 --target soju --tag soju .
-      podman build --platform linux/amd64,linux/arm64 --target gamja --tag gamja .
+      platforms=linux/amd64,linux/arm64
+      podman build --platform $platforms --target soju --manifest soju .
+      podman build --platform $platforms --target gamja --manifest gamja .
   - deploy: |
       cd soju-containers
       [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)" ] || complete-build
       podman login codeberg.org --username emersion --password-stdin <~/codeberg-token.txt
-      podman push soju codeberg.org/emersion/soju
-      podman push gamja codeberg.org/emersion/gamja
+      podman manifest push soju codeberg.org/emersion/soju
+      podman manifest push gamja codeberg.org/emersion/gamja
