@@ -1,26 +1,36 @@
-FROM docker.io/library/golang:alpine AS soju-build
+FROM --platform=$BUILDPLATFORM docker.io/library/golang:alpine AS soju-build
 RUN --mount=type=cache,target=/var/cache/apk \
 	apk -U add build-base ca-certificates tzdata
 ADD https://codeberg.org/emersion/soju.git /src/
 WORKDIR /src
+ARG TARGETOS TARGETARCH TARGETPLATFORM BUILDPLATFORM
 RUN --mount=type=cache,target=/root/.cache/go-build \
 	--mount=type=cache,target=/root/go/pkg/mod \
-	go build -o . \
-		-ldflags "-linkmode=external -extldflags=-static \
-		-X codeberg.org/emersion/soju/config.DefaultPath=/soju-config \
-		-X codeberg.org/emersion/soju/config.DefaultUnixAdminPath=/soju-admin.sock" \
-		./cmd/...
+	<<EOF
+	if [ "$TARGETPLATFORM" = "$BUILDPLATFORM" ]; then
+		tags=""
+		ldflags="-linkmode=external -extldflags=-static"
+	else
+		tags="moderncsqlite"
+		ldflags=""
+	fi
+	ldflags="$ldflags -X codeberg.org/emersion/soju/config.DefaultPath=/soju-config"
+	ldflags="$ldflags -X codeberg.org/emersion/soju/config.DefaultUnixAdminPath=/soju-admin.sock"
+	GOOS=$TARGETOS GOARCH=$TARGETARCH \
+		go build -o . -tags="$tags" -ldflags="$ldflags" ./cmd/...
+EOF
 
-FROM docker.io/library/golang:alpine AS kimchi-build
+FROM --platform=$BUILDPLATFORM docker.io/library/golang:alpine AS kimchi-build
 # TODO: use Git URL once migrated off of sr.ht
 ADD https://git.sr.ht/~emersion/kimchi/archive/master.tar.gz /src/
 WORKDIR /src
+ARG TARGETOS TARGETARCH
 RUN tar --strip-components=1 -xf master.tar.gz
 RUN --mount=type=cache,target=/root/.cache/go-build \
 	--mount=type=cache,target=/root/go/pkg/mod \
-	go build
+	GOOS=$TARGETOS GOARCH=$TARGETARCH go build
 
-FROM docker.io/library/node:alpine AS gamja-build
+FROM --platform=$BUILDPLATFORM docker.io/library/node:alpine AS gamja-build
 ADD https://codeberg.org/emersion/gamja.git /src/
 WORKDIR /src
 RUN --mount=type=cache,target=/src/node_modules \
