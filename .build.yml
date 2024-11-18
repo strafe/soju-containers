@@ -8,8 +8,8 @@ secrets:
 tasks:
   - build: |
       cd soju-containers
-      podman build --target soju --tag soju .
-      podman build --target gamja --tag gamja .
+      podman build --platform linux/amd64,linux/arm64 --target soju --tag soju .
+      podman build --platform linux/amd64,linux/arm64 --target gamja --tag gamja .
   - deploy: |
       cd soju-containers
       [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)" ] || complete-build
