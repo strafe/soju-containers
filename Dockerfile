@@ -21,11 +21,9 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 EOF
 
 FROM --platform=$BUILDPLATFORM docker.io/library/golang:alpine AS kimchi-build
-# TODO: use Git URL once migrated off of sr.ht
-ADD https://git.sr.ht/~emersion/kimchi/archive/master.tar.gz /src/
+ADD https://codeberg.org/emersion/kimchi.git /src/
 WORKDIR /src
 ARG TARGETOS TARGETARCH
-RUN tar --strip-components=1 -xf master.tar.gz
 RUN --mount=type=cache,target=/root/.cache/go-build \
 	--mount=type=cache,target=/root/go/pkg/mod \
 	GOOS=$TARGETOS GOARCH=$TARGETARCH go build
