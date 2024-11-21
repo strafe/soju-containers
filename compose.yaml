@@ -3,6 +3,8 @@ name: soju
 configs:
   soju:
     file: soju/config
+  gamja:
+    file: gamja/config.json
 
 volumes:
   db:
@@ -27,5 +29,8 @@ services:
     image: codeberg.org/emersion/gamja
     build:
       context: gamja
+    configs:
+      - source: gamja
+        target: /gamja-config.json
     ports:
       - "127.0.0.1:8080:80"

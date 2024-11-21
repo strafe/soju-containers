@@ -19,7 +19,8 @@ This image starts a soju instance reading its configuration from `/soju-config`.
 ### [`codeberg.org/emersion/gamja`][gamja-img]
 
 This image serves the gamja webapp on port 80. By default, gamja will connect
-to `ws://gamja-backend/socket`.
+to `ws://gamja-backend/socket`. The gamja configuration file can be customized
+by mounting `/gamja-config.json`.
 
 [soju]: https://soju.im/
 [gamja]: https://codeberg.org/emersion/gamja
