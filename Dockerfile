@@ -39,8 +39,9 @@ FROM scratch AS soju
 COPY --from=soju-build /src/soju /src/sojudb /src/sojuctl /
 COPY --from=soju-build /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=soju-build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-ENTRYPOINT ["/soju"]
-HEALTHCHECK CMD ["/sojuctl", "help"]
+ENV PATH=/
+ENTRYPOINT ["soju"]
+HEALTHCHECK CMD ["sojuctl", "help"]
 
 FROM scratch AS gamja
 COPY --from=kimchi-build /src/kimchi /kimchi

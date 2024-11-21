@@ -6,7 +6,7 @@ Container manifests for [soju] and [gamja].
 
     docker compose build
     docker compose up -d
-    docker compose exec soju /sojuctl user create -username <username> -password <password> -admin
+    docker compose exec soju sojuctl user create -username <username> -password <password> -admin
 
 Then connect to http://localhost:8080 and login.
 
