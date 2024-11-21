@@ -10,5 +10,18 @@ Container manifests for [soju] and [gamja].
 
 Then connect to http://localhost:8080 and login.
 
+## Docker images
+
+### [`codeberg.org/emersion/soju`][soju-img]
+
+This image starts a soju instance reading its configuration from `/soju-config`.
+
+### [`codeberg.org/emersion/gamja`][gamja-img]
+
+This image serves the gamja webapp on port 80. By default, gamja will connect
+to `ws://gamja-backend/socket`.
+
 [soju]: https://soju.im/
 [gamja]: https://codeberg.org/emersion/gamja
+[soju-img]: https://codeberg.org/emersion/-/packages/container/soju/latest
+[gamja-img]: https://codeberg.org/emersion/-/packages/container/gamja/latest
