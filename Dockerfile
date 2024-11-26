@@ -1,7 +1,8 @@
 FROM --platform=$BUILDPLATFORM docker.io/library/golang:alpine AS soju-build
 RUN --mount=type=cache,target=/var/cache/apk \
 	apk -U add build-base ca-certificates tzdata
-ADD https://codeberg.org/emersion/soju.git /src/
+ARG SOJU_REF=master
+ADD https://codeberg.org/emersion/soju.git#${SOJU_REF} /src/
 WORKDIR /src
 ARG TARGETOS TARGETARCH TARGETPLATFORM BUILDPLATFORM
 RUN --mount=type=cache,target=/root/.cache/go-build \
@@ -21,7 +22,8 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 EOF
 
 FROM --platform=$BUILDPLATFORM docker.io/library/golang:alpine AS kimchi-build
-ADD https://codeberg.org/emersion/kimchi.git /src/
+ARG KIMCHI_REF=master
+ADD https://codeberg.org/emersion/kimchi.git#${KIMCHI_REF} /src/
 WORKDIR /src
 ARG TARGETOS TARGETARCH
 RUN --mount=type=cache,target=/root/.cache/go-build \
@@ -29,7 +31,8 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 	GOOS=$TARGETOS GOARCH=$TARGETARCH go build
 
 FROM --platform=$BUILDPLATFORM docker.io/library/node:alpine AS gamja-build
-ADD https://codeberg.org/emersion/gamja.git /src/
+ARG GAMJA_REF=master
+ADD https://codeberg.org/emersion/gamja.git#${GAMJA_REF} /src/
 WORKDIR /src
 RUN --mount=type=cache,target=/src/node_modules \
 	--mount=type=cache,target=/src/.parcel-cache \
