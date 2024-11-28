@@ -24,4 +24,9 @@ tasks:
       podman login codeberg.org --username emersion --password-stdin <~/codeberg-token.txt
       for image in $images; do
         podman manifest push $image codeberg.org/emersion/$image
+
+        ref=$(awk -F = -v image="$image" '$1 == toupper(image "_REF") { print $2 }' argfile.conf)
+        if [ "$ref" != "" ] && [ "$ref" != master ]; do
+          podman manifest push $image codeberg.org/emersion/$image:$ref
+        done
       done
