@@ -8,7 +8,7 @@ secrets:
 tasks:
   - build: |
       cd soju-containers
-      platforms=linux/amd64,linux/arm64
+      platforms=linux/amd64,linux/arm64,linux/arm/v6
       podman build --platform $platforms --target soju --manifest soju .
       podman build --platform $platforms --target gamja --manifest gamja .
   - deploy: |
