@@ -2,7 +2,7 @@ name: soju
 
 configs:
   soju:
-    file: soju-config
+    file: soju/config
 
 volumes:
   db:
@@ -11,7 +11,7 @@ services:
   soju:
     image: codeberg.org/emersion/soju
     build:
-      target: soju
+      context: soju
     ports:
       - "127.0.0.1:6667:6667"
     configs:
@@ -26,6 +26,6 @@ services:
   gamja:
     image: codeberg.org/emersion/gamja
     build:
-      target: gamja
+      context: gamja
     ports:
       - "127.0.0.1:8080:80"

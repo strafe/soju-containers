@@ -9,8 +9,8 @@ tasks:
   - build: |
       cd soju-containers
       platforms=linux/amd64,linux/arm64,linux/arm/v6
-      podman build --platform $platforms --target soju --manifest soju .
-      podman build --platform $platforms --target gamja --manifest gamja .
+      podman build --platform $platforms --target soju --manifest soju soju
+      podman build --platform $platforms --target gamja --manifest gamja gamja
   - deploy: |
       cd soju-containers
       [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)" ] || complete-build
