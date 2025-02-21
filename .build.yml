@@ -8,9 +8,14 @@ secrets:
 tasks:
   - build: |
       cd soju-containers
-      platforms=linux/amd64,linux/arm64,linux/arm/v6
-      podman build --platform $platforms --target soju --manifest soju soju
-      podman build --platform $platforms --target gamja --manifest gamja gamja
+      for image in soju gamja; do
+        podman build \
+          --platform linux/amd64,linux/arm64,linux/arm/v6 \
+          --target $image \
+          --manifest $image \
+          --build-arg-file argfile.conf \
+          $image
+      done
   - deploy: |
       cd soju-containers
       [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)" ] || complete-build
