@@ -30,10 +30,17 @@ services:
       default:
         aliases:
           - gamja-backend
+  kimchi:
+    image: codeberg.org/emersion/kimchi
+    build:
+      context: kimchi
+    command: ""
   gamja:
     image: codeberg.org/emersion/gamja
     build:
       context: gamja
+      additional_contexts:
+        kimchi: "service:kimchi"
     configs:
       - source: gamja
         target: /gamja-config.json

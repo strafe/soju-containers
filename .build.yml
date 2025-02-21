@@ -6,7 +6,7 @@ sources:
 secrets:
   - 106c7011-4e0e-4b33-a3f2-ffea55ce3f4b # codeberg package registry token
 environment:
-  images: soju gamja
+  images: soju kimchi gamja
 tasks:
   - build: |
       cd soju-containers
