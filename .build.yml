@@ -5,10 +5,12 @@ sources:
   - https://codeberg.org/emersion/soju-containers.git
 secrets:
   - 106c7011-4e0e-4b33-a3f2-ffea55ce3f4b # codeberg package registry token
+environment:
+  images: soju gamja
 tasks:
   - build: |
       cd soju-containers
-      for image in soju gamja; do
+      for image in $images; do
         podman build \
           --platform linux/amd64,linux/arm64,linux/arm/v6 \
           --target $image \
@@ -20,5 +22,6 @@ tasks:
       cd soju-containers
       [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)" ] || complete-build
       podman login codeberg.org --username emersion --password-stdin <~/codeberg-token.txt
-      podman manifest push soju codeberg.org/emersion/soju
-      podman manifest push gamja codeberg.org/emersion/gamja
+      for image in $images; do
+        podman manifest push $image codeberg.org/emersion/$image
+      done
