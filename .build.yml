@@ -26,7 +26,7 @@ tasks:
         podman manifest push $image codeberg.org/emersion/$image
 
         ref=$(awk -F = -v image="$image" '$1 == toupper(image "_REF") { print $2 }' argfile.conf)
-        if [ "$ref" != "" ] && [ "$ref" != master ]; do
+        if [ "$ref" != "" ] && [ "$ref" != master ]; then
           podman manifest push $image codeberg.org/emersion/$image:$ref
-        done
+        fi
       done
