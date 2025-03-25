@@ -4,7 +4,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
 ARG SOJU_REF=master
 ADD https://codeberg.org/emersion/soju.git#${SOJU_REF} /src/
 WORKDIR /src
-ARG TARGETOS TARGETARCH TARGETPLATFORM BUILDPLATFORM
+ARG TARGETOS TARGETARCH TARGETPLATFORM TARGETVARIANT BUILDPLATFORM
 RUN --mount=type=cache,target=/root/.cache/go-build \
 	--mount=type=cache,target=/root/go/pkg/mod \
 	<<EOF
@@ -14,15 +14,14 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 	else
 		tags="moderncsqlite"
 		ldflags=""
-
-		if [ "$TARGETARCH" = arm ]; then
-			arm_variant="${TARGETPLATFORM##*/v}"
-		fi
+	fi
+	export GOOS=$TARGETOS GOARCH=$TARGETARCH
+	if [ "$TARGETARCH" = arm ]; then
+		export GOARM="${TARGETVARIANT##v}"
 	fi
 	ldflags="$ldflags -X codeberg.org/emersion/soju/config.DefaultPath=/soju-config"
 	ldflags="$ldflags -X codeberg.org/emersion/soju/config.DefaultUnixAdminPath=/soju-admin.sock"
-	GOOS=$TARGETOS GOARCH=$TARGETARCH GOARM=$arm_variant \
-		go build -o . -tags="$tags" -ldflags="$ldflags" ./cmd/...
+	go build -o . -tags="$tags" -ldflags="$ldflags" ./cmd/...
 EOF
 
 FROM scratch AS soju
