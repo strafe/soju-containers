@@ -1,6 +1,6 @@
 image: archlinux
 packages:
-  - podman
+  - buildah
 sources:
   - https://codeberg.org/emersion/soju-containers.git
 secrets:
@@ -11,7 +11,7 @@ tasks:
   - build: |
       cd soju-containers
       for image in $images; do
-        podman build \
+        buildah build \
           --platform linux/amd64,linux/arm64,linux/arm/v6 \
           --target $image \
           --manifest codeberg.org/emersion/$image \
@@ -21,12 +21,12 @@ tasks:
   - deploy: |
       cd soju-containers
       [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)" ] || complete-build
-      podman login codeberg.org --username emersion --password-stdin <~/codeberg-token.txt
+      buildah login codeberg.org --username emersion --password-stdin <~/codeberg-token.txt
       for image in $images; do
-        podman manifest push codeberg.org/emersion/$image
+        buildah manifest push codeberg.org/emersion/$image
 
         ref=$(awk -F = -v image="$image" '$1 == toupper(image "_REF") { print $2 }' argfile.conf)
         if [ "$ref" != "" ] && [ "$ref" != master ]; then
-          podman manifest push codeberg.org/emersion/$image codeberg.org/emersion/$image:$ref
+          buildah manifest push codeberg.org/emersion/$image codeberg.org/emersion/$image:$ref
         fi
       done
