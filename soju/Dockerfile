@@ -31,9 +31,9 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 EOF
 
 FROM scratch AS soju
-COPY --from=soju-build /src/soju /src/sojudb /src/sojuctl /
 COPY --from=soju-build /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=soju-build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=soju-build /src/soju /src/sojudb /src/sojuctl /
 ENV PATH=/
 ENTRYPOINT ["soju"]
 HEALTHCHECK CMD ["sojuctl", "help"]
