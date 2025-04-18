@@ -14,8 +14,9 @@ tasks:
         buildah build \
           --platform linux/amd64,linux/arm64,linux/arm/v6 \
           --target $image \
-          --manifest codeberg.org/emersion/$image \
+          --manifest $image \
           --build-arg-file argfile.conf \
+          --build-arg KIMCHI_IMAGE=kimchi \
           $image
       done
   - deploy: |
@@ -23,10 +24,10 @@ tasks:
       [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)" ] || complete-build
       buildah login codeberg.org --username emersion --password-stdin <~/codeberg-token.txt
       for image in $images; do
-        buildah manifest push codeberg.org/emersion/$image
+        buildah manifest push $image docker://codeberg.org/emersion/$image
 
         ref=$(awk -F = -v image="$image" '$1 == toupper(image "_REF") { print $2 }' argfile.conf)
         if [ "$ref" != "" ] && [ "$ref" != master ]; then
-          buildah manifest push codeberg.org/emersion/$image docker://codeberg.org/emersion/$image:$ref
+          buildah manifest push $image docker://codeberg.org/emersion/$image:$ref
         fi
       done

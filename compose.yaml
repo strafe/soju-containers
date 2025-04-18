@@ -41,6 +41,8 @@ services:
       context: gamja
       additional_contexts:
         kimchi: "service:kimchi"
+      args:
+        KIMCHI_IMAGE: kimchi
     configs:
       - source: gamja
         target: /gamja-config.json
