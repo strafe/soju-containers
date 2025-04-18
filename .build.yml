@@ -27,6 +27,6 @@ tasks:
 
         ref=$(awk -F = -v image="$image" '$1 == toupper(image "_REF") { print $2 }' argfile.conf)
         if [ "$ref" != "" ] && [ "$ref" != master ]; then
-          buildah manifest push codeberg.org/emersion/$image codeberg.org/emersion/$image:$ref
+          buildah manifest push codeberg.org/emersion/$image docker://codeberg.org/emersion/$image:$ref
         fi
       done
