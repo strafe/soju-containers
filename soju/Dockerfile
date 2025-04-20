@@ -1,6 +1,6 @@
 FROM --platform=$BUILDPLATFORM docker.io/library/golang:alpine AS soju-build
 RUN --mount=type=cache,target=/var/cache/apk \
-	apk -U add build-base ca-certificates tzdata
+	apk -U add build-base ca-certificates tzdata mailcap
 ARG SOJU_REF=master
 ADD https://codeberg.org/emersion/soju.git#${SOJU_REF} /src/
 WORKDIR /src
@@ -33,6 +33,7 @@ EOF
 FROM scratch AS soju
 COPY --from=soju-build /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=soju-build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=soju-build /etc/mime.types /etc/mime.types
 COPY --from=soju-build /src/soju /src/sojudb /src/sojuctl /
 ENV PATH=/
 ENTRYPOINT ["soju"]
