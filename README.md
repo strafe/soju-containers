@@ -15,6 +15,7 @@ Then connect to http://localhost:8080 and login.
 ### [`codeberg.org/emersion/soju`][soju-img]
 
 This image starts a soju instance reading its configuration from `/soju-config`.
+The sojuctl utility is available in `PATH`.
 
 ### [`codeberg.org/emersion/gamja`][gamja-img]
 
