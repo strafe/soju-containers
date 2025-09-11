@@ -1,0 +1,13 @@
+[Container]
+Image=codeberg.org/emersion/soju:latest
+AutoUpdate=registry
+PublishPort=6667:6667
+Volume=%E/soju/config:/soju-config:Z
+Volume=%D/soju/db:/db:Z
+Volume=%D/soju/uploads:/uploads:Z
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
