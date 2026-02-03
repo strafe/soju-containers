@@ -14,12 +14,6 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 	else
 		tags="moderncsqlite"
 		ldflags=""
-		# Workaround for https://todo.sr.ht/~emersion/soju/246
-		case "$SOJU_REF" in
-		v0.9.*)
-			go get modernc.org/sqlite@v1.35.0
-			;;
-		esac
 	fi
 	export GOOS=$TARGETOS GOARCH=$TARGETARCH
 	if [ "$TARGETARCH" = arm ]; then
