@@ -1,7 +1,10 @@
 db sqlite3 /db/main.db
 message-store db
 file-upload fs /uploads/
+
 listen irc+insecure://
 listen http+insecure://
 listen unix+admin://
+
+# This needs to be updated to match the public URL wired up to soju's HTTP listener
 http-ingress http://localhost:8080
