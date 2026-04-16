@@ -32,3 +32,6 @@ COPY --from=soju-build /src/soju /src/sojudb /src/sojuctl /
 ENV PATH=/
 ENTRYPOINT ["soju"]
 HEALTHCHECK CMD ["sojuctl", "help"]
+
+LABEL org.opencontainers.image.source="https://codeberg.org/emersion/soju-containers"
+LABEL org.opencontainers.image.description="IRC bouncer"

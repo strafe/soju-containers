@@ -21,3 +21,6 @@ COPY --from=kimchi-build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=kimchi-build /src/kimchi /kimchi
 ENV PATH=/
 CMD ["kimchi", "-config", "/kimchi-config"]
+
+LABEL org.opencontainers.image.source="https://codeberg.org/emersion/soju-containers"
+LABEL org.opencontainers.image.description="Web server"

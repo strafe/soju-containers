@@ -12,3 +12,6 @@ RUN --mount=type=cache,target=/root/.npm \
 FROM $KIMCHI_IMAGE AS gamja
 COPY --from=gamja-build /src/dist /gamja
 ADD kimchi-config /kimchi-config
+
+LABEL org.opencontainers.image.source="https://codeberg.org/emersion/soju-containers"
+LABEL org.opencontainers.image.description="IRC Web client"
