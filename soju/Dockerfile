@@ -2,7 +2,7 @@ FROM --platform=$BUILDPLATFORM docker.io/library/golang:alpine AS soju-build
 RUN --mount=type=cache,target=/var/cache/apk \
 	apk -U add build-base ca-certificates tzdata mailcap
 ARG SOJU_REF=master
-ADD https://codeberg.org/emersion/soju.git#${SOJU_REF} /src/
+ADD https://github.com/strafe/soju.git#${SOJU_REF} /src/
 WORKDIR /src
 ARG TARGETOS TARGETARCH TARGETPLATFORM TARGETVARIANT BUILDPLATFORM
 RUN --mount=type=cache,target=/root/.cache/go-build \
